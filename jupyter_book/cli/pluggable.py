@@ -10,11 +10,11 @@ except ImportError:
 
 
 def get_entry_point_names(group: str) -> List[str]:
-    return [ep.name for ep in metadata.entry_points().get(group, [])]
+    return [ep.name for ep in metadata.entry_points().select(group=group)]
 
 
 def load_entry_point(group: str, name: str) -> Any:
-    eps = [ep for ep in metadata.entry_points().get(group, []) if ep.name == name]
+    eps = [ep for ep in metadata.entry_points().select(group=group, name=name)]
     if not eps:
         raise KeyError(f"Entry-point {group}:{name}")
     return eps[0].load()
